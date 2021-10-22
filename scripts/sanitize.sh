@@ -33,6 +33,9 @@ systemctl restart nginx
 pad "[REINICIANDO] ATOM WORKER"
 systemctl restart atom-worker
 
+# Aguardar que os serviços reiniciem completamente
+sleep 60
+
 # SYMFONY
 
 pad "[SYMFONY] REGERAR DERIVATIVAS DE ACESSO"
