@@ -34,7 +34,7 @@ pad "[REINICIANDO] ATOM WORKER"
 systemctl restart atom-worker
 
 # Aguardar que os serviços reiniciem completamente
-sleep 60
+sleep 180
 
 # SYMFONY
 
