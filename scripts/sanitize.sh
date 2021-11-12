@@ -14,7 +14,7 @@ pad() {
 }
 
 # Entrar no diretório do atom.
-pushd /usr/share/nginx/atom
+pushd /usr/share/nginx/atom > /dev/null
 
 # SERVIÇOS
 
@@ -33,7 +33,9 @@ systemctl restart nginx
 pad "[REINICIANDO] ATOM WORKER"
 systemctl restart atom-worker
 
-# Aguardar que os serviços reiniciem completamente
+# Necessário para que os serviços reiniciem completamente
+# antes da sanitização.
+pad "[PAUSA] AGUARDANDO 180 SEGUNDOS"
 sleep 180
 
 # SYMFONY
@@ -61,4 +63,4 @@ php symfony search:populate
 
 pad "[PRONTO] SANITIZAÇÃO COMPLETA"
 
-popd
+popd > /dev/null
