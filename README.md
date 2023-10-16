@@ -1,4 +1,3 @@
-
 <h1 align="center"> atom-utils </h1>
 <p align="center">
   <img
@@ -6,7 +5,8 @@
     src="assets/logo_800x300.png"
   />
   <br><br>
-  Este repositório é composto por scripts úteis para manutenir o software livre AccessToMemory - AtoM (ICA-AtoM)
+  Esse repositório contém scripts úteis para manutenir o software livre
+  AccessToMemory - AtoM (legacy ICA-AtoM).
 </p>
 
 ---
@@ -48,18 +48,31 @@ git clone https://github.com/docs-digitais/atom-utils.git
 ## Script de Sanitização
 > Arquivo: `scripts/sanitize.sh`
 > 
-> Versão do AtoM: `>= 2.6 < 2.7`
+> Versão do AtoM: `>= 2.7 < 2.8`
 
-Este script foi desenvolvido com o intuito de sanitizar uma instância do AtoM. Incluimos comandos para: reindexação, regerar derivadas de acesso, reindexar PDFs, reiniciar serviços, etc...
+Este script foi desenvolvido com o intuito de sanitizar uma instância do AtoM.
+Incluímos comandos para: reindexação, _regerar derivadas de acesso*_, reindexar
+PDFs, limpar o cache, reiniciar serviços, etc...
 
-Recomendamos que a sanitização seja feita fora de horários de grande demanda, às `3am` por exemplo.
+> (*) O comando de re-geração de derivadas de acesso foi desativado com um
+> comentário por inviabilizar o uso de alguns servidores mais modestos.
+
+Atenção: o script deve ser executado como superusuário (sudo):
+```sh
+sudo sh /caminho/ate/o/script/sanitize.sh
+```
+
+Recomendamos que a sanitização seja feita fora de horários de grande demanda,
+às `03:00am` por exemplo.
 
 ---
 
-Os scripts podem ser usados pelo [Crontab](https://pt.wikipedia.org/wiki/Crontab) para sanitizar seu AtoM sistematicamente.
+Os scripts podem ser usados pelo [Crontab](https://pt.wikipedia.org/wiki/Crontab)
+para sanitizar seu AtoM sistematicamente.
 
 
-> *Ao selecionar o horário, verifique o fuso horário do seu servidor para que não haja confusões sobre o horário de execução do script.*
+> *Ao selecionar o horário, verifique o fuso horário do seu servidor para que
+> não hajam confusões sobre o horário de execução do script.*
 
 <details>
 <summary> Tutorial simples</summary>
@@ -72,7 +85,9 @@ sudo su
 ```bash
 crontab -e
 ```
-Caso seja a sua primeira vez usando o cron, será requisitado que selecione um editor de texto. Recomendamos o `nano`.
+Caso seja a sua primeira vez usando o cron, será requisitado que selecione um
+editor de texto. Recomendamos o `nano`.
+
 ```bash
 Select an editor.  To change later, run 'select-editor'.
   1. /bin/nano        <---- easiest
@@ -86,22 +101,23 @@ Uma tela parecida com a abaixo vai ser aberta:
 ![Imagem de um terminal com informações sobre o Crontab](assets/cron_default.png)
 
 Você pode ignorar tudo o que está escrito e ir até o fim do arquivo.
-Digite o formato do horário desejado, o exemplo a seguir executa o script `às 3 da manhã de Domingo`:
+Digite o formato do horário desejado, o exemplo a seguir executa o script
+`às 3h da manhã de Domingo`:
 
 ```
-0 3 * * 7 bash <caminho/completo/até/o/arquivo/sanitize.sh>
+0 3 * * 7 sudo sh <caminho/completo/até/o/arquivo/sanitize.sh>
 ```
 
 > Caso seu script esteja na pasta `/tmp`, a linha do cron vai ficar assim: 
 > ```
-> 0 3 * * 7 bash /tmp/sanitize.sh
+> 0 3 * * 7 sudo sh /tmp/sanitize.sh
 > ```
 >
-> O [Crontab Guru](https://crontab.guru/) pode te ajudar a customizar o horário em que o script será executado pelo CRON.
+> O [Crontab Guru](https://crontab.guru/) pode te ajudar a customizar o horário
+em que o script será executado pelo CRON.
 
-*Para executar um script TODOS os dias da semana às 3 da manhã: `0 3 * * *`*
+*Para executar um script TODOS os dias da semana às 3h da manhã: `0 3 * * *`*
 
-Pressione `CTRL + S` para salvar e `CTRL + X` para sair, o cron será instalado automaticamente.
+Pressione `CTRL + S` para salvar e `CTRL + X` para sair, o cron será instalado
+automaticamente.
 </details>
-
----

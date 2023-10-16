@@ -1,66 +1,63 @@
-#!/bin/bash
-
-printf '%.1s' ={1..80}
-echo ""
-echo "Iniciando a execução da sanitização do AtoM."
-printf '%.1s' ={1..80}
-echo -e "\n"
-
-# Utils
-pad() {
-  echo ""
-  printf '%.80s\n' "$1 $(printf '%.1s' .{1..80})"
-  echo ""
-}
-
-# Entrar no diretório do atom.
-pushd /usr/share/nginx/atom > /dev/null
+#!/bin/sh
 
 # SERVIÇOS
 
-pad "[REINICIANDO] ELASTICSEARCH"
+echo "Restarting elasticsearch"
 systemctl restart elasticsearch
+sleep 60
 
-pad "[REINICIANDO] PHP"
-systemctl restart php7.2-fpm
+echo "Restarting php7.4-fpm"
+systemctl restart php7.4-fpm
+sleep 60
 
-pad "[REINICIANDO] MEMCACHED"
+echo "Restarting memcached"
 systemctl restart memcached
+sleep 60
 
-pad "[REINICIANDO] NGINX"
+echo "Restarting nginx"
 systemctl restart nginx
+sleep 60
 
-pad "[REINICIANDO] ATOM WORKER"
+echo "Restarting atom-worker"
+systemctl reset-failed atom-worker
 systemctl restart atom-worker
 
-# Necessário para que os serviços reiniciem completamente
-# antes da sanitização.
-pad "[PAUSA] AGUARDANDO 180 SEGUNDOS"
 sleep 180
 
 # SYMFONY
 
-pad "[SYMFONY] REGERAR DERIVATIVAS DE ACESSO"
-php symfony digitalobject:regen-derivatives -f
+(
+cd /usr/share/nginx/atom
 
-pad "[SYMFONY] REINDEXAR PDFS"
+echo "Symfony digitalobject:extract-text"
 php symfony digitalobject:extract-text
+sleep 60
 
-pad "[SYMFONY] REGERAR NESTED SET"
+echo "Symfony propel:build-nested-set"
 php symfony propel:build-nested-set
+sleep 60
 
-pad "[SYMFONY] GERAR SLUGS"
+echo "Symfony propel:generate-slugs"
 php symfony propel:generate-slugs
+sleep 60
 
-pad "[SYMFONY] CACHE EAD-XML"
+echo "Symfony cache:xml-representations"
 php symfony cache:xml-representations
+sleep 60
 
-pad "[SYMFONY] LIMPAR CACHE"
+echo "Symfony cc"
 php symfony cc
+sleep 60
 
-pad "[SYMFONY] POPULAR INDEX"
+echo "Symfony search:populate"
 php symfony search:populate
+sleep 60
 
-pad "[PRONTO] SANITIZAÇÃO COMPLETA"
+# A Re-geração de derivadas de acesso foi desativada por geralmente
+# tomar muito tempo e inviabilizar o uso do servidor, claro, dependendo
+# das dimensões de memória, cpu e objetos digitais.
+#
+# Recomenda-se que esse comando seja executado nos finais de semana.
+# php symfony digitalobject:regen-derivatives -f
 
-popd > /dev/null
+)
