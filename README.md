@@ -2,7 +2,8 @@
 <p align="center">
   <img
     alt="Logo do grupo de pesquisa Ged/A Documentos Digitais"
-    src="assets/logo_800x300.png"
+    src="assets/geda_logo.png"
+    height="300"
   />
   <br><br>
   Esse repositório contém scripts úteis para manutenir o software livre
