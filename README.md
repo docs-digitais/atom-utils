@@ -48,7 +48,7 @@ git clone https://github.com/docs-digitais/atom-utils.git
 ## Script de Sanitização
 > Arquivo: `scripts/sanitize.sh`
 > 
-> Versão do AtoM: `>= 2.7 < 2.8`
+> Versão do AtoM: `>= 2.9 < 2.10`
 
 Este script foi desenvolvido com o intuito de sanitizar uma instância do AtoM.
 Incluímos comandos para: reindexação, _regerar derivadas de acesso*_, reindexar

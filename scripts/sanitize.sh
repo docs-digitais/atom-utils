@@ -6,8 +6,8 @@ echo "Restarting elasticsearch"
 systemctl restart elasticsearch
 sleep 60
 
-echo "Restarting php7.4-fpm"
-systemctl restart php7.4-fpm
+echo "Restarting php8.3-fpm"
+systemctl restart php8.3-fpm
 sleep 60
 
 echo "Restarting memcached"
